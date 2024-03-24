@@ -6,4 +6,5 @@ const {authenticationMiddleware ,authorizationMiddleware} = require(path.resolve
 router.get('/' ,blogController.search);
 router.get('/:id' ,blogController.find);
 router.post('/' ,authenticationMiddleware, authorizationMiddleware(['admin']),blogController.create)
+router.patch('/:id' ,authenticationMiddleware, authorizationMiddleware(['admin']),blogController.update)
 module.exports = router

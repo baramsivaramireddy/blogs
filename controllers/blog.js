@@ -59,5 +59,23 @@ module.exports = {
 
             res.status(500).json({ message: 'internal server error' + err })
         }
+    },
+
+    update: async (req,res) =>{
+        const ID = req.params.id
+        try {
+
+            await dbconnect()
+
+           let blog= await  Blog.findByIdAndUpdate(ID,req.body)
+
+         
+           res.status(201).json({message: "successfully updated"})
+        }
+        catch (err) {
+
+            res.status(500).json({ message: 'internal server error' + err })
+        }
+
     }
 }
