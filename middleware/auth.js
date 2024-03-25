@@ -53,4 +53,39 @@ module.exports = {
       }
     };
   },
+
+  publicORAuthenticated  : async function (req,res,next){
+
+
+    try {
+      if (__configurations.ENVIRONMENT == 'local') {
+        next();
+        return "";
+      }
+      let token = req?.headers?.authorization?.split(" ")[1];
+
+
+      if (token === undefined) {
+          next()
+      return 
+      }
+
+
+      try {
+        let decoded = jwt.verify(token, __configurations.SECRETKEY);
+        req.user = decoded;
+      } catch (err) {
+
+        res.status(401).json({ message: "  token is invalid" + err });
+        return "";
+      }
+      next();
+      return;
+    } catch (err) {
+      console.log(`Error occured while verifing the token ${err}`);
+      res.status(500).json({ message: "Internal server error" });
+    }
+    
+
+  }
 };

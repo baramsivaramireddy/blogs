@@ -34,7 +34,15 @@ module.exports = {
 
             await dbconnect()
 
-           let blogs = await  Blog.find({}).populate('image');
+            let filter ={
+
+                
+            }
+            if (req?.user?.role != 'admin'){
+
+                filter['visibility'] = 'public'
+            }
+           let blogs = await  Blog.find(filter).populate('image');
 
          
            res.status(200).json({length:blogs.length,blogs:blogs})
